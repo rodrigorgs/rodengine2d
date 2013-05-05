@@ -11,12 +11,14 @@ DebugDraw =  Box2D.Dynamics.b2DebugDraw;
 RevoluteJointDef =  Box2D.Dynamics.Joints.b2RevoluteJointDef;
 ContactListener = Box2D.Dynamics.b2ContactListener;
 
+var PHYSICS_SCALE = 20;
+
 var PhysicsManager = Class.extend({
 	world: null,
 	iterationSeconds: null,
 
 	init: function(fps) {
-		this.world = new World(new Vec2(0, 98), false);
+		this.world = new World(new Vec2(0, 9.8), false);
 		this.iterationSeconds = 1.0 / fps;
 
 		var listener = new ContactListener();
@@ -47,7 +49,8 @@ var PhysicsManager = Class.extend({
 
 		// shape
 		var shape = new PolygonShape();
-		shape.SetAsBox(attributes.size.x / 2, attributes.size.y / 2);
+		shape.SetAsBox((1.0 / PHYSICS_SCALE) * attributes.size.x / 2, 
+			(1.0 / PHYSICS_SCALE) * attributes.size.y / 2);
 
 		// fixture		
 		var fixtureDef = new FixtureDef();

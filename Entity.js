@@ -59,20 +59,26 @@ var PhysicsEntity = Entity.extend({
 	init: function() {},
 	update: function() {
 	},
+	scaled: function(getter, vector) {
+		var factor = (getter ? PHYSICS_SCALE : 1.0 / PHYSICS_SCALE);
+		return {x: vector.x * factor, y: vector.y * factor };
+	},
 	getPos: function() { 
-		return this.body.GetPosition();
+		return this.scaled(true, this.body.GetPosition());
 	},
 	getVel: function() {
-		return this.body.GetLinearVelocity();
+		return this.scaled(true, this.body.GetLinearVelocity());
 	},
 	getAngle: function() {
 		return this.body.GetAngle();
 	},
 
-	setPos: function(pos) {
+	setPos: function(_pos) {
+		var pos = this.scaled(false, _pos);
 		this.body.SetPosition(new Vec2(pos.x, pos.y));
 	},
-	setVel: function(vel) {
+	setVel: function(_vel) {
+		var vel = this.scaled(false, _vel);
 		this.body.SetLinearVelocity(new Vec2(vel.x, vel.y));
 	},
 	setAngle: function(angle) {
